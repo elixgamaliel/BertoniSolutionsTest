@@ -1,0 +1,14 @@
+﻿@model AlbumList
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h1 class="display-4">Albums</h1>
+    <div class="container albums">
+        @for (int i = 0; i < Model.Albums.Count(); ++i)
+        {
+            <div>@Model.Albums[i].Title</div>
+        }
+    </div>
+</div>

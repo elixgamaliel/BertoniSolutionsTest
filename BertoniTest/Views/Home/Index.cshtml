@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("https://jsonplaceholder.typicode.com/albums", function (data) {
+            var items = [];
+            $.each(data, function (key, val) {
+                items.push("<div id='album" + val.id + "'><div class='album-title'>" + val.id + ".-" + val.title + "</div><input class='form-control album-button' type='button' value='Visualizar Album' onClick='visualizeAlbum(" + val.id + ")' /></div>");
+            });
+
+            $("<div/>", {
+                "class": "album-list",
+                html: items.join("")
+            }).appendTo(".albums");
+        });
+    });
+
+    function visualizeAlbum(id) {
+        $.getJSON("https://jsonplaceholder.typicode.com/photos?albumId=" + id, function (data) {
+            var items = [];
+            $.each(data, function (key, val) {
+                items.push("<div id='photo" + val.id + "' class='row'><div class='photo-thumb col-4'><img src='" + val.thumbnailUrl + "' /></div><div class='photo-title col-4'>" + val.id + ".-" + val.title
+                    + "</div><div class='col-4'><input class='form-control album-button' type='button' value='Ver Comentarios' onClick='viewComments(" + val.id + ")' /></div></div>");
+            });
+
+            $("<div/>", {
+                "class": "photo-list",
+                html: items.join("")
+            }).appendTo("#album" + id);
+        });
+    }
+
+    function viewComments(id) {
+        $.getJSON("https://jsonplaceholder.typicode.com/comments?postId=" + id, function (data) {
+            var items = [];
+            $.each(data, function (key, val) {
+                items.push("<div id='comment" + val.id + "' class='row'><div class='comment-title col-6'>" + val.id + ".-" + val.name + "<br/>From: " + val.email
+                    + "</div><div class='comment-body col-6'>" + val.body + "</div></div>");
+            });
+
+            $("<div/>", {
+                "class": "comment-list",
+                html: items.join("")
+            }).appendTo("#photo" + id);
+        });
+    }
+</script>
+
+<div>
+    <h1 class="display-4">Albums</h1>
+    <div class="container albums">
+
+    </div>
+</div>
